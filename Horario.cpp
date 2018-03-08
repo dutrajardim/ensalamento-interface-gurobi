@@ -11,14 +11,14 @@
  * Created on 3 de Dezembro de 2017, 14:21
  */
 
-#include "Ensalamento.h"
+#include "Horario.h"
 
-Ensalamento::Ensalamento() {
+Horario::Horario() {
     this->SetDisciplina(new Disciplina());
     this->SetTurma(new Turma());
 }
 
-Ensalamento::Ensalamento(const Json::Value& jData) {
+Horario::Horario(const Json::Value& jData) {
     this->SetDisciplina(new Disciplina());
     this->SetTurma(new Turma());
     
@@ -26,6 +26,7 @@ Ensalamento::Ensalamento(const Json::Value& jData) {
     this->SetDia(jData["dia"].asString());
     this->SetHorario(jData["horario"].asInt());
     this->SetAlunos_qtd(jData["alunos_qtd"].asInt());
+    this->SetDisciplinasTurmasId(jData["disciplinas_turmas_id"].asInt());
 
     this->GetDisciplina()->SetId(jData["disciplina"]["id"].asInt());
     this->GetDisciplina()->SetNome(jData["disciplina"]["nome"].asString());
@@ -35,79 +36,88 @@ Ensalamento::Ensalamento(const Json::Value& jData) {
     this->GetTurma()->SetDescricao(jData["turma"]["descricao"].asString());
 }
 
-Ensalamento::Ensalamento(const Ensalamento& orig) {
+Horario::Horario(const Horario& orig) {
 }
 
-Ensalamento::~Ensalamento() {
+Horario::~Horario() {
 }
 
-Json::Value Ensalamento::GetJson() {
+Json::Value Horario::GetJson() {
     Json::Value value(Json::objectValue);
-    value["turmas_id"] = this->GetTurma()->GetId();
-    value["dia"] = this->GetDia();
-    value["horario"] = this->GetHorario();
-    value["disciplinas_id"] = this->GetDisciplina()->GetId();
     value["salas_id"] = this->GetSala()->GetId();
+    ostringstream str;
+    str << this->GetDia();
+    value["dia"] = str.str();
+    value["horario"] = this->GetHorario();
+    value["disciplinas_turmas_id"] = this->GetDisciplinasTurmasId();
     return value;
 }
 
-void Ensalamento::SetHorario(int horario) {
+void Horario::SetHorario(int horario) {
     this->horario = horario;
 }
 
-int Ensalamento::GetHorario() const {
+int Horario::GetHorario() const {
     return horario;
 }
 
-void Ensalamento::SetDia(int dia) {
+void Horario::SetDia(int dia) {
     this->dia = dia;
 }
 
-void Ensalamento::SetDia(string dia) {
+void Horario::SetDia(string dia) {
     this->dia = atoi(dia.c_str());
 }
 
-int Ensalamento::GetDia() const {
+int Horario::GetDia() const {
     return dia;
 }
 
-void Ensalamento::SetTurma(Turma* turma) {
+void Horario::SetTurma(Turma* turma) {
     this->turma = turma;
 }
 
-Turma* Ensalamento::GetTurma() const {
+Turma* Horario::GetTurma() const {
     return turma;
 }
 
-void Ensalamento::SetDisciplina(Disciplina* disciplina) {
+void Horario::SetDisciplina(Disciplina* disciplina) {
     this->disciplina = disciplina;
 }
 
-Disciplina* Ensalamento::GetDisciplina() const {
+Disciplina* Horario::GetDisciplina() const {
     return disciplina;
 }
 
-void Ensalamento::SetId(int id) {
+void Horario::SetId(int id) {
     this->id = id;
 }
 
-int Ensalamento::GetId() const {
+int Horario::GetId() const {
     return id;
 }
 
-void Ensalamento::SetAlunos_qtd(int alunos_qtd) {
+void Horario::SetAlunos_qtd(int alunos_qtd) {
     this->alunos_qtd = alunos_qtd;
 }
 
-int Ensalamento::GetAlunos_qtd() const {
+int Horario::GetAlunos_qtd() const {
     return alunos_qtd;
 }
 
-void Ensalamento::SetSala(Sala* sala) {
+void Horario::SetDisciplinasTurmasId(int disciplinasTurmasId) {
+    this->disciplinasTurmasId = disciplinasTurmasId;
+}
+
+int Horario::GetDisciplinasTurmasId() const {
+    return disciplinasTurmasId;
+}
+
+void Horario::SetSala(Sala* sala) {
     this->sala = sala;
 }
 
-Sala* Ensalamento::GetSala() const {
+Sala* Horario::GetSala() const {
     return sala;
 }
 

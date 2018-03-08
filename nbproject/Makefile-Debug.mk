@@ -36,7 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Disciplina.o \
-	${OBJECTDIR}/Ensalamento.o \
+	${OBJECTDIR}/Horario.o \
 	${OBJECTDIR}/HttpRequests.o \
 	${OBJECTDIR}/Sala.o \
 	${OBJECTDIR}/Turma.o \
@@ -61,21 +61,21 @@ LDLIBSOPTIONS=-L/opt/gurobi751/linux64/lib
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpptestes
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/interface_gurobi
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpptestes: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/interface_gurobi: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpptestes ${OBJECTFILES} ${LDLIBSOPTIONS} -lgurobi_g++5.2 -lgurobi75 -lcurl -ljsoncpp
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/interface_gurobi ${OBJECTFILES} ${LDLIBSOPTIONS} -lgurobi_g++5.2 -lgurobi75 -lcurl -ljsoncpp
 
 ${OBJECTDIR}/Disciplina.o: Disciplina.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/opt/gurobi751/linux64/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Disciplina.o Disciplina.cpp
 
-${OBJECTDIR}/Ensalamento.o: Ensalamento.cpp
+${OBJECTDIR}/Horario.o: Horario.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/opt/gurobi751/linux64/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Ensalamento.o Ensalamento.cpp
+	$(COMPILE.cc) -g -I/opt/gurobi751/linux64/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Horario.o Horario.cpp
 
 ${OBJECTDIR}/HttpRequests.o: HttpRequests.cpp
 	${MKDIR} -p ${OBJECTDIR}

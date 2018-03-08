@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=cpptestes
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/cpptestes
+CND_ARTIFACT_NAME_Debug=interface_gurobi
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/interface_gurobi
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=cpptestes.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/cpptestes.tar
+CND_PACKAGE_NAME_Debug=interfacegurobi.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/interfacegurobi.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=cpptestes
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/cpptestes
+CND_ARTIFACT_NAME_Release=interface_gurobi
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/interface_gurobi
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=cpptestes.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/cpptestes.tar
+CND_PACKAGE_NAME_Release=interfacegurobi.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/interfacegurobi.tar
 #
 # include compiler specific variables
 #

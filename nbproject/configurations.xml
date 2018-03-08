@@ -5,7 +5,7 @@
                    displayName="Arquivos de Cabeçalho"
                    projectFiles="true">
       <itemPath>Disciplina.h</itemPath>
-      <itemPath>Ensalamento.h</itemPath>
+      <itemPath>Horario.h</itemPath>
       <itemPath>HttpRequests.h</itemPath>
       <itemPath>Sala.h</itemPath>
       <itemPath>Turma.h</itemPath>
@@ -14,7 +14,7 @@
                    displayName="Arquivos de Código-Fonte"
                    projectFiles="true">
       <itemPath>Disciplina.cpp</itemPath>
-      <itemPath>Ensalamento.cpp</itemPath>
+      <itemPath>Horario.cpp</itemPath>
       <itemPath>HttpRequests.cpp</itemPath>
       <itemPath>Sala.cpp</itemPath>
       <itemPath>Turma.cpp</itemPath>
@@ -61,9 +61,9 @@
       </item>
       <item path="Disciplina.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Ensalamento.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Horario.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Ensalamento.h" ex="false" tool="3" flavor2="0">
+      <item path="Horario.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="HttpRequests.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -104,9 +104,9 @@
       </item>
       <item path="Disciplina.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Ensalamento.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Horario.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Ensalamento.h" ex="false" tool="3" flavor2="0">
+      <item path="Horario.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="HttpRequests.cpp" ex="false" tool="1" flavor2="0">
       </item>

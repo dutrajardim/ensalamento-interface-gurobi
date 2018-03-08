@@ -19,18 +19,18 @@
 #include <sstream>
 #include <map>
 #include <vector>
-#include <gurobi_c++.h>
+#include "gurobi_c++.h"
 
 #include <jsoncpp/json/json.h>
 
-#include "Ensalamento.h"
+#include "Horario.h"
 #include "HttpRequests.h"
 #include "Disciplina.h"
 #include "Sala.h"
 
 using namespace std;
 
-vector<Ensalamento*> getEnsalamentos();
+vector<Horario*> getHorarios();
 vector<Sala*> getSalas();
 void setFuncaoObjetivo(GRBModel* model);
 void initVars(GRBModel* model);
@@ -52,9 +52,13 @@ int *demanda;
 int **horario;
 
 vector<Sala*> salas;
-vector<Ensalamento*> ensalamentos;
+vector<Horario*> horarios;
 
-char horarioCode[30];
+char param_ensalamentoID[30];
+char param_ano[30];
+char param_semestre[30];
+
+string baseURL = "http://52.205.160.150/api/v1/";
 
 int main(int argc, char** argv) {
     
@@ -62,11 +66,11 @@ int main(int argc, char** argv) {
     ::setArgs(argc, argv);
     
     // recupera informações de api
-    ensalamentos = ::getEnsalamentos();
+    horarios = ::getHorarios();
     salas = ::getSalas();
     
     num_salas = salas.size(); 
-    num_turmas = ensalamentos.size();
+    num_turmas = horarios.size();
     demanda = new int[num_turmas];
     
     // cria matriz (turmas x horarios) e aloca 0 para cada elemento
@@ -80,15 +84,15 @@ int main(int argc, char** argv) {
     
     // aloca demanda de turma em vetor demanda e
     // aloca turma em mapper que indica posição de turma
-    map<int, Ensalamento*> turmas;
+    map<int, Horario*> turmas;
     int temp_horario;
     for (int i=0; i<num_turmas; i++) {
-        turmas[i] = ensalamentos[i];
+        turmas[i] = horarios[i];
         
-        demanda[i] = ensalamentos[i]->GetAlunos_qtd();
+        demanda[i] = horarios[i]->GetAlunos_qtd();
         
         // Converte horaio e dia em um valor de 0 até 14
-        temp_horario = ensalamentos[i]->GetDia() * 2  + ensalamentos[i]->GetHorario();
+        temp_horario = horarios[i]->GetDia() * 2  + horarios[i]->GetHorario();
         horario[i][temp_horario] = 1;
     }
     
@@ -109,51 +113,56 @@ int main(int argc, char** argv) {
         model.update();
         model.optimize();
         
-        cout << endl << endl << endl;
+        // cout << endl << endl << endl;
         
-        for(int i = 0; i < num_turmas; i++){
-            for(int j = 0; j < num_horarios; j++){
-                bool print = true;
-                for(int k = 0; k < num_salas; k++){
-                    if(x[i][j][k].get(GRB_DoubleAttr_X) > 0.5){
-                        cout << salas.at(k)->GetNome() << "\t";
-                        print = false;
-                    }                            
-                }
-                if (print) cout << "---\t";
-            }
-            cout << endl;
-        }         
+        // for(int i = 0; i < num_turmas; i++){
+        //     for(int j = 0; j < num_horarios; j++){
+        //         bool print = true;
+        //         for(int k = 0; k < num_salas; k++){
+        //             if(x[i][j][k].get(GRB_DoubleAttr_X) > 0.5){
+        //                 cout << salas.at(k)->GetNome() << "\t";
+        //                 print = false;
+        //             }                            
+        //         }
+        //         if (print) cout << "---\t";
+        //     }
+        //     cout << endl;
+        // }         
         
-        Json::Value root(Json::arrayValue);
+        Json::Value ensalamentosArr(Json::arrayValue);
         
         for (int i=0; i<num_turmas; i++) {
             for (int j=0; j<num_horarios; j++) {
                 for (int k=0; k<num_salas; k++) {
                     if(x[i][j][k].get(GRB_DoubleAttr_X) > 0.5) {
-                        for(map<int, Ensalamento*>::iterator pos = turmas.begin(); pos != turmas.end(); pos++) {
+                        for(map<int, Horario*>::iterator pos = turmas.begin(); pos != turmas.end(); pos++) {
                             if (pos->first == i) {
                                 pos->second->SetSala(salas.at(k));
-                                root.append(pos->second->GetJson());
+                                ensalamentosArr.append(pos->second->GetJson());
                             }
                         }
                     }
                 }
             }
-            cout << endl;
+            // cout << endl;
         }
-        string urlHorario = "http://localhost:8000/api/v1/horarios/";
-        urlHorario += horarioCode;
-        urlHorario += "/ensalamentos";
-        cout << root.toStyledString() << endl;
-//        string responseJson = HttpRequests::post(urlHorario, root);
+
+        Json::Value root(Json::objectValue);
+        root["ensalamentos"] = ensalamentosArr;
+
+        string urlHorario = baseURL + "ensalamentos/";
+        urlHorario += param_ensalamentoID;
+        urlHorario += "/ensalar";
+        // cout << root.toStyledString() << endl;
+        string responseJson = HttpRequests::post(urlHorario, root);
+        cout << responseJson;
     
     } catch (GRBException e) {
-        cout << "Error code = " << e.getErrorCode() << endl;
-        cout << e.getMessage() << endl;
+        // cout << "Error code = " << e.getErrorCode() << endl;
+        // cout << e.getMessage() << endl;
         std::exit(EXIT_FAILURE);
     } catch(...) {
-        cout << "Exception during optimization" << endl;
+        // cout << "Exception during optimization" << endl;
         std::exit(EXIT_FAILURE);
     }
     
@@ -168,23 +177,30 @@ int main(int argc, char** argv) {
 void setArgs(int argc, char** argv) {
     //opcoes de entrada terminal
     struct option OpcoesLongas[] = {
-            {"ajuda", no_argument, NULL, 'a'},            
-            {"Codigo do horario", required_argument, NULL, 'h'},
-            {"arquivo sala", required_argument, NULL, 's'},
+            {"ajuda", no_argument, NULL, 'h'},
+            {"codigo do ensalamento", required_argument, NULL, 'e'},
+            {"ano para ensalamento", required_argument, NULL, 'a'},
+            {"semestre para ensalamento", required_argument, NULL, 's'},
+            {"arquivo sala", required_argument, NULL, 'r'},
             {0, 0, 0, 0}
     };
     
     char optc = 0;  // Parece estranho... Mas todo CHAR é na verdade um INT
-    while((optc = getopt_long(argc, argv, "h:a:s:", OpcoesLongas, NULL)) != -1) {
+    while((optc = getopt_long(argc, argv, "h:e:a:s:r", OpcoesLongas, NULL)) != -1) {
             switch(optc) {
-                case 'a' : 
+                case 'h' : 
                     break;                                   
-                case 'h' :
-                    strcpy(horarioCode, optarg);
+                case 'e' :
+                    strcpy(param_ensalamentoID, optarg);
+                    break;
+                case 'a':
+                    strcpy(param_ano, optarg);
                     break;
                 case 's' :
+                    strcpy(param_semestre, optarg);
                     break;
-                    
+                case 'r' :
+                    break;    
                 default :
                     printf("Parametros incorretos.\n");
             }
@@ -317,22 +333,22 @@ void setFuncaoObjetivo(GRBModel* model) {
 /** 
  *  Recupera informações de ensalamento da api
  */
-vector<Ensalamento*> getEnsalamentos() {
-    vector<Ensalamento*> ensalamentos;
-    string ensalamentosJson = HttpRequests::get("http://localhost:8000/api/v1/ensalamentos/pendentes");
+vector<Horario*> getHorarios() {
+    vector<Horario*> horarios; 
+    string horariosJson = HttpRequests::get(baseURL + "horarios?filters=ano:" + param_ano + ",semestre:" + param_semestre);
     
     Json::Value jData;
     Json::Reader jReader;
     
-    if(jReader.parse(ensalamentosJson, jData)) {
+    if(jReader.parse(horariosJson, jData)) {
         for (Json::Value::ArrayIndex i = 0; i != jData.size(); i++) {
-            ensalamentos.push_back(new Ensalamento(jData[i]));
+            horarios.push_back(new Horario(jData[i]));
         }
     } 
     else {
-        cout << "Could not parse HTTP data as JSON" << endl;
+        // cout << "Could not parse HTTP data as JSON" << endl;
     }
-    return ensalamentos;
+    return horarios;
 }
 
 
@@ -341,7 +357,7 @@ vector<Ensalamento*> getEnsalamentos() {
  */
 vector<Sala*> getSalas() {
     vector<Sala*> salas;
-    string salasJson = HttpRequests::get("http://localhost:8000/api/v1/salas");
+    string salasJson = HttpRequests::get(baseURL + "salas");
     
     Json::Value jData;
     Json::Reader jReader;
@@ -352,7 +368,7 @@ vector<Sala*> getSalas() {
         }
     }
     else {
-        cout << "Could not parse HTTP data as JSON" << endl;
+        // cout << "Could not parse HTTP data as JSON" << endl;
     }
     return salas;
 }

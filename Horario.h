@@ -11,8 +11,8 @@
  * Created on 3 de Dezembro de 2017, 14:21
  */
 
-#ifndef ENSALAMENTO_H
-#define ENSALAMENTO_H
+#ifndef HORARIO_H
+#define HORARIO_H
 
 #include <jsoncpp/json/json.h>
 
@@ -21,15 +21,17 @@
 #include "Sala.h"
 #include <stdlib.h> 
 #include <string>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 
-class Ensalamento {
+class Horario {
 public:
-    Ensalamento();
-    Ensalamento(const Ensalamento& orig);
-    Ensalamento(const Json::Value& jData);
-    virtual ~Ensalamento();
+    Horario();
+    Horario(const Horario& orig);
+    Horario(const Json::Value& jData);
+    virtual ~Horario();
 
     void SetHorario(int horario);
     int GetHorario() const;
@@ -49,6 +51,9 @@ public:
     
     void SetAlunos_qtd(int alunos_qtd);
     int GetAlunos_qtd() const;
+
+    void SetDisciplinasTurmasId(int disciplinasTurmasId);
+    int GetDisciplinasTurmasId() const;
     
     void SetSala(Sala* sala);
     Sala* GetSala() const;
@@ -60,6 +65,7 @@ private:
     int dia;
     int horario;
     int alunos_qtd;
+    int disciplinasTurmasId;
 
     Disciplina *disciplina;
     Turma *turma;

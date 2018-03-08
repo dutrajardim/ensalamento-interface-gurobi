@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=CppTestes
+PROJECTNAME=interface_gurobi
 
 # Active Configuration
 DEFAULTCONF=Debug

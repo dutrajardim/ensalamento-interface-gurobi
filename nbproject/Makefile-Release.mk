@@ -36,7 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Disciplina.o \
-	${OBJECTDIR}/Ensalamento.o \
+	${OBJECTDIR}/Horario.o \
 	${OBJECTDIR}/HttpRequests.o \
 	${OBJECTDIR}/Sala.o \
 	${OBJECTDIR}/Turma.o \
@@ -61,21 +61,21 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpptestes
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/interface_gurobi
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpptestes: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/interface_gurobi: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpptestes ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/interface_gurobi ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/Disciplina.o: Disciplina.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Disciplina.o Disciplina.cpp
 
-${OBJECTDIR}/Ensalamento.o: Ensalamento.cpp
+${OBJECTDIR}/Horario.o: Horario.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Ensalamento.o Ensalamento.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Horario.o Horario.cpp
 
 ${OBJECTDIR}/HttpRequests.o: HttpRequests.cpp
 	${MKDIR} -p ${OBJECTDIR}
