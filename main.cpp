@@ -58,7 +58,8 @@ char param_ensalamentoID[30];
 char param_ano[30];
 char param_semestre[30];
 
-string baseURL = "http://52.205.160.150/api/v1/";
+// string baseURL = "http://52.205.160.150/api/v1/";
+string baseURL = "http://localhost:8000/api/v1/";
 
 int main(int argc, char** argv) {
     

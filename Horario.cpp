@@ -47,6 +47,7 @@ Json::Value Horario::GetJson() {
     value["salas_id"] = this->GetSala()->GetId();
     ostringstream str;
     str << this->GetDia();
+    value["horarios_id"] = this->GetId();
     value["dia"] = str.str();
     value["horario"] = this->GetHorario();
     value["disciplinas_turmas_id"] = this->GetDisciplinasTurmasId();
