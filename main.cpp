@@ -92,8 +92,8 @@ int main(int argc, char** argv) {
         
         demanda[i] = horarios[i]->GetAlunos_qtd();
         
-        // Converte horaio e dia em um valor de 0 até 14
-        temp_horario = (horarios[i]->GetDia() - 1) * 2  + horarios[i]->GetHorario();
+        // Converte horaio e dia em um valor de 0 até 13
+        temp_horario = ((horarios[i]->GetDia() - 1) * 2  + horarios[i]->GetHorario()) - 1;
         horario[i][temp_horario] = 1;
     }
     
